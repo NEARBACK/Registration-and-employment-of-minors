@@ -78,7 +78,7 @@
                     {% url 'add_student' as add_student %}
                     <a href="{{ add_student }}" class="nav-link {% if add_student == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Добавить студента</p>
+                        <p>Добавить несовершенолетний</p>
                     </a>
                 </li>
 
@@ -88,7 +88,7 @@
                     <a href="{{ manage_student }}"
                        class="nav-link {% if edit_student == request.path or manage_student == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Управление студентами</p>
+                        <p>Управление несовершенолетнийми</p>
                     </a>
                 </li>
 
@@ -96,7 +96,7 @@
                     {% url 'add_course' as add_course %}
                     <a href="{{ add_course }}" class="nav-link {% if add_course == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Добавить курс</p>
+                        <p>Добавить направление</p>
                     </a>
                 </li>
 
@@ -106,7 +106,7 @@
                     <a href="{{ manage_course }}"
                        class="nav-link {% if edit_course == request.path or manage_course == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Управление курсами</p>
+                        <p>Управление направлениями</p>
                     </a>
                 </li>
 
@@ -114,7 +114,7 @@
                     {% url 'add_subject' as add_subject %}
                     <a href="{{ add_subject }}" class="nav-link {% if add_subject == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Добавить предмет</p>
+                        <p>Добавить вакансию</p>
                     </a>
                 </li>
 
@@ -124,7 +124,7 @@
                     <a href="{{ manage_subject }}"
                        class="nav-link {% if edit_subject == request.path or manage_subject == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Управление предметами</p>
+                        <p>Управление вакансиями</p>
                     </a>
                 </li>
 
@@ -287,7 +287,7 @@
     <a href="" class="brand-link">
         <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo"
              class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Панель студента</span>
+        <span class="brand-text font-weight-light">Панель несовершенолетний</span>
     </a>
 
     <!-- Боковая панель -->

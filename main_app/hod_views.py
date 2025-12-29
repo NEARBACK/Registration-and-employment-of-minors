@@ -77,7 +77,7 @@ def add_staff(request):
 
 def add_student(request):
     student_form = StudentForm(request.POST or None, request.FILES or None)
-    context = {'form': student_form, 'page_title': 'Добавить студента'}
+    context = {'form': student_form, 'page_title': 'Добавить несовершенолетего'}
     if request.method == 'POST':
         if student_form.is_valid():
             first_name = student_form.cleaned_data.get('first_name')
@@ -113,7 +113,7 @@ def add_course(request):
     form = CourseForm(request.POST or None)
     context = {
         'form': form,
-        'page_title': 'Добавить курс'
+        'page_title': 'Добавить направление'
     }
     if request.method == 'POST':
         if form.is_valid():
@@ -135,7 +135,7 @@ def add_subject(request):
     form = SubjectForm(request.POST or None)
     context = {
         'form': form,
-        'page_title': 'Добавить предмет'
+        'page_title': 'Добавить вакансию'
     }
     if request.method == 'POST':
         if form.is_valid():
@@ -181,7 +181,7 @@ def manage_course(request):
     courses = Course.objects.all()
     context = {
         'courses': courses,
-        'page_title': 'Управление курсами'
+        'page_title': 'Управление направлениями'
     }
     return render(request, "hod_template/manage_course.html", context)
 
@@ -190,7 +190,7 @@ def manage_subject(request):
     subjects = Subject.objects.all()
     context = {
         'subjects': subjects,
-        'page_title': 'Управление предметами'
+        'page_title': 'Управление вакансиями'
     }
     return render(request, "hod_template/manage_subject.html", context)
 

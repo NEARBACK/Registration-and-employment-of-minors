@@ -21,7 +21,7 @@
                                     <th>ФИО</th>
                                     <th>Email</th>
                                     <th>Пол</th>
-                                    <th>Курс</th>
+                                    <th>Направление</th>
                                     <th>Аватар</th>
                                     <th>Действия</th>
                                 </tr>
@@ -61,7 +61,7 @@
                                         </a>
                                         -
                                         <a href="{% url 'delete_student' student.student.id %}" class="btn btn-danger"
-                                           onclick="return confirm('Удалить студента?')">
+                                           onclick="return confirm('Удалить несовершенолетний?')">
                                             Удалить
                                         </a>
                                     </td>
