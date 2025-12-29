@@ -40,13 +40,13 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     {% url 'admin_notify_staff' as admin_notify_staff %}
                     <a href="{{ admin_notify_staff }}" class="nav-link {% if admin_notify_staff == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Уведомления для персонала</p>
                     </a>
-                </li>
+                </li> {% endcomment %}
 
                 <li class="nav-item">
                     {% url 'admin_notify_student' as admin_notify_student %}
@@ -56,15 +56,15 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     {% url 'add_staff' as add_staff %}
                     <a href="{{ add_staff }}" class="nav-link {% if add_staff == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Добавить сотрудника</p>
                     </a>
-                </li>
+                </li> {% endcomment %}
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     {% url 'manage_staff' as manage_staff %}
                     {% url 'edit_staff' staff_id as edit_staff %}
                     <a href="{{ manage_staff }}"
@@ -72,7 +72,7 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>Управление сотрудниками</p>
                     </a>
-                </li>
+                </li> {% endcomment %}
 
                 <li class="nav-item">
                     {% url 'add_student' as add_student %}
@@ -128,7 +128,7 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     {% url 'add_session' as add_session %}
                     <a href="{{ add_session }}" class="nav-link {% if add_session == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
@@ -144,15 +144,15 @@
                         <i class="nav-icon fas fa-th"></i>
                         <p>Управление сессиями</p>
                     </a>
-                </li>
+                </li> {% endcomment %}
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     {% url 'admin_view_attendance' as admin_view_attendance %}
                     <a href="{{ admin_view_attendance }}" class="nav-link {% if admin_view_attendance == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Посещаемость (просмотр)</p>
                     </a>
-                </li>
+                </li> {% endcomment %}
 
                 <li class="nav-item">
                     {% url 'student_feedback_message' as student_feedback_message %}
@@ -329,7 +329,6 @@
                         <p>Просмотр результатов</p>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     {% url 'student_view_attendance' as student_view_attendance %}
                     <a href="{{ student_view_attendance }}" class="nav-link {% if student_view_attendance == request.path %} active {% endif %}">
@@ -337,7 +336,6 @@
                         <p>Просмотр посещаемости</p>
                     </a>
                 </li>
-
                 <li class="nav-item">
                     {% url 'student_view_notification' as student_view_notification %}
                     <a href="{{ student_view_notification }}" class="nav-link {% if student_view_notification == request.path %} active {% endif %}">

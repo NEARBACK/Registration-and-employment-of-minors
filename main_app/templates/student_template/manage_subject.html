@@ -1,0 +1,152 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+
+        <!-- Фильтры -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <form class="form-inline" onsubmit="return false;">
+                    <div class="form-group mr-2">
+                        <label for="courseFilter" class="mr-2">Направление:</label>
+                        <select id="courseFilter" class="form-control">
+                            <option value="">Все направления</option>
+                            {# Строим список направлений из уже загруженных subjects #}
+                            {% for subject in subjects|dictsort:"course__id" %}
+                                {% ifchanged subject.course.id %}
+                                    <option value="{{ subject.course.id }}">
+                                        {{ subject.course.name }}
+                                    </option>
+                                {% endifchanged %}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group mr-2">
+                        <label for="searchInput" class="mr-2">Поиск вакансии:</label>
+                        <input id="searchInput" type="text"
+                               class="form-control"
+                               placeholder="Введите название">
+                    </div>
+
+                    <button type="button" class="btn btn-secondary" id="clearFilters">
+                        Сбросить
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Таблица вакансий -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{page_title}}</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Вакансия</th>
+                                    <th>Направление</th>
+                                    <th>Сотрудник</th>
+                                    <th>Настройки</th>
+                                </tr>
+                            </thead>
+                            <tbody id="vacanciesTableBody">
+                                {% for subject in subjects %}
+                                <tr
+                                    data-course-id="{{ subject.course.id }}"
+                                    data-name="{{ subject.name|lower }}"
+                                >
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ subject.name }}</td>
+                                    <td>{{ subject.course.name }}</td>
+                                    <td>
+                                        {% if subject.staff %}
+                                            {{ subject.staff.admin.last_name }} {{ subject.staff.admin.first_name }}
+                                        {% else %}
+                                            Не назначен
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'edit_subject' subject.id %}" class="btn btn-primary btn-sm">
+                                            Редактировать
+                                        </a>
+                                        <a href="{% url 'delete_subject' subject.id %}"
+                                           class="btn btn-danger btn-sm"
+                                           onclick="return confirm('Удалить эту вакансию?');">
+                                            Удалить
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center">Вакансий нет</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}
+
+{% block custom_js %}
+<script>
+    // Простой фронтовый фильтр без бэкенда
+    (function() {
+        const courseFilter = document.getElementById('courseFilter');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearFilters');
+        const rows = document.querySelectorAll('#vacanciesTableBody tr');
+
+        function applyFilters() {
+            const selectedCourse = courseFilter.value;
+            const searchText = searchInput.value.toLowerCase().trim();
+
+            rows.forEach(function(row) {
+                const rowCourseId = row.getAttribute('data-course-id');
+                const rowName = row.getAttribute('data-name') || '';
+
+                let visible = true;
+
+                if (selectedCourse && rowCourseId !== selectedCourse) {
+                    visible = false;
+                }
+
+                if (searchText && !rowName.includes(searchText)) {
+                    visible = false;
+                }
+
+                row.style.display = visible ? '' : 'none';
+            });
+        }
+
+        if (courseFilter && searchInput) {
+            courseFilter.addEventListener('change', applyFilters);
+            searchInput.addEventListener('input', applyFilters);
+        }
+
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function() {
+                courseFilter.value = '';
+                searchInput.value = '';
+                applyFilters();
+            });
+        }
+    })();
+</script>
+{% endblock custom_js %}

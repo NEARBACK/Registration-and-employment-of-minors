@@ -103,7 +103,7 @@ class Subject(models.Model):
 
 
 class Attendance(models.Model):
-    session = models.ForeignKey(Session, on_delete=models.DO_NOTHING)
+    session = models.ForeignKey(Session, on_delete=models.DO_NOTHING, null=True, blank=True)
     subject = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
     date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)

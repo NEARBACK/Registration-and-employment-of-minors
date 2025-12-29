@@ -116,7 +116,7 @@ def student_feedback(request):
     context = {
         'form': form,
         'feedbacks': FeedbackStudent.objects.filter(student=student),
-        'page_title': 'Student Feedback'
+        'page_title': 'Отзыв / комментарий'
 
     }
     if request.method == 'POST':
@@ -202,6 +202,6 @@ def student_view_result(request):
     results = StudentResult.objects.filter(student=student)
     context = {
         'results': results,
-        'page_title': "View Results"
+        'page_title': "Просмотр результатов"
     }
     return render(request, "student_template/student_view_result.html", context)

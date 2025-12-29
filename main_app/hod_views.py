@@ -408,7 +408,7 @@ def student_feedback_message(request):
         feedbacks = FeedbackStudent.objects.all()
         context = {
             'feedbacks': feedbacks,
-            'page_title': 'Отзывы студентов'
+            'page_title': 'Отзывы несовершенолетних'
         }
         return render(request, 'hod_template/student_feedback_template.html', context)
     else:
@@ -475,7 +475,7 @@ def view_student_leave(request):
         allLeave = LeaveReportStudent.objects.all()
         context = {
             'allLeave': allLeave,
-            'page_title': 'Заявки на отпуск от студентов',
+            'page_title': 'Заявки на отпуск от несовершенолетних',
         }
         return render(request, "hod_template/student_leave_view.html", context)
     else:
@@ -499,7 +499,7 @@ def admin_view_attendance(request):
     sessions = Session.objects.all()
     context = {
         'subjects': subjects,
-        'sessions': sessions,
+        # 'sessions': sessions,
         'page_title': 'Просмотр посещаемости',
     }
 

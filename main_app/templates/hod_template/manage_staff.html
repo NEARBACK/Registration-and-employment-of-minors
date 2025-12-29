@@ -3,7 +3,6 @@
 {% block page_title %}{{page_title}}{% endblock page_title %}
 
 {% block content %}
-
 <section class="content">
     <div class="container-fluid">
         <div class="row">
@@ -31,31 +30,48 @@
                                 {% for staff in allStaff %}
                                 <tr>
                                     <td>{{ forloop.counter }}</td>
-                                    <td>{{staff.last_name}}, {{staff.first_name}}</td>
-                                    <td>{{staff.email}}</td>
+
+                                    {# staff.admin — это CustomUser #}
+                                    <td>{{ staff.admin.last_name }}, {{ staff.admin.first_name }}</td>
+                                    <td>{{ staff.admin.email }}</td>
+
                                     <td>
-                                        {% if staff.gender == "M" %}
+                                        {% if staff.admin.gender == "M" %}
                                             Мужской
-                                        {% elif staff.gender == "F" %}
+                                        {% elif staff.admin.gender == "F" %}
                                             Женский
                                         {% else %}
-                                            {{staff.gender}}
+                                            {{ staff.admin.gender }}
                                         {% endif %}
                                     </td>
-                                    <td>{{staff.staff.course.name}}</td>
+
                                     <td>
-                                        {% if staff.profile_pic == ""  %}
-                                            Нет фото
+                                        {% if staff.course %}
+                                            {{ staff.course.name }}
                                         {% else %}
-                                            <img class="img img-fluid mb-2" height="100" width="100"
-                                                src="{{staff.profile_pic}}" alt="avatar">
+                                            —
                                         {% endif %}
                                     </td>
+
                                     <td>
-                                        <a href="{% url 'edit_staff' staff.staff.id %}" class="btn btn-primary">Редактировать</a> -
-                                        <a href="{% url 'delete_staff' staff.staff.id %}" class="btn btn-danger"
+                                        {% if staff.admin.profile_pic %}
+                                            <img class="img img-fluid mb-2"
+                                                 height="100" width="100"
+                                                 src="{{ staff.admin.profile_pic.url }}"
+                                                 alt="avatar">
+                                        {% else %}
+                                            Нет фото
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <a href="{% url 'edit_staff' staff.id %}" class="btn btn-primary">
+                                            Редактировать
+                                        </a>
+                                        -
+                                        <a href="{% url 'delete_staff' staff.id %}" class="btn btn-danger"
                                            onclick="return confirm('Точно удалить сотрудника?')">
-                                           Удалить
+                                            Удалить
                                         </a>
                                     </td>
                                 </tr>
@@ -70,5 +86,4 @@
         </div>
     </div>
 </section>
-
 {% endblock content %}

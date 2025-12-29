@@ -43,7 +43,7 @@ def staff_take_attendance(request):
     sessions = Session.objects.all()
     context = {
         'subjects': subjects,
-        'sessions': sessions,
+        # 'sessions': sessions,
         'page_title': 'Take Attendance'
     }
 
@@ -109,7 +109,7 @@ def staff_update_attendance(request):
     sessions = Session.objects.all()
     context = {
         'subjects': subjects,
-        'sessions': sessions,
+        # 'sessions': sessions,
         'page_title': 'Update Attendance'
     }
 

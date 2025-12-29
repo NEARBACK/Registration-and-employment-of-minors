@@ -8,7 +8,6 @@
         <!-- Информационные карточки -->
         <div class="row">
             <div class="col-lg-3 col-6">
-                <!-- small box -->
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>{{total_students}}</h3>
@@ -42,7 +41,7 @@
                 <div class="small-box bg-warning">
                     <div class="inner">
                         <h3>{{total_course}}</h3>
-                        <p>Всего курсов</p>
+                        <p>Всего направлений</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
@@ -57,7 +56,7 @@
                 <div class="small-box bg-danger">
                     <div class="inner">
                         <h3>{{total_subject}}</h3>
-                        <p>Всего предметов</p>
+                        <p>Всего вакансий</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
@@ -71,115 +70,92 @@
 
         <!-- Графики -->
         <div class="row">
+
+            <!-- Диаграмма несовершенолетних/сотрудников -->
             <div class="col-md-6">
                 <div class="card card-secondary">
-                    <div class="card-header">
-                        <h3 class="card-title">{{page_title}}</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <div class="card-header"><h3 class="card-title">Соотношение трудоустроенных и не трудоустроенных</h3></div>
                     <div class="card-body">
-                        <div class="chart">
-                            <canvas id="pieChart"
-                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;">
-                            </canvas>
-                        </div>
+                        <canvas id="pieChart"></canvas>
                     </div>
                 </div>
             </div>
 
+            <!-- Посещаемость -->
             <div class="col-md-6">
                 <div class="card card-secondary">
-                    <div class="card-header">
-                        <h3 class="card-title">{{page_title}}</h3>
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
+                    <div class="card-header"><h3 class="card-title">Пу пу пу</h3></div>
                     <div class="card-body">
-                        <div class="chart">
-                            <canvas id="barChart"
-                                style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;">
-                            </canvas>
-                        </div>
+                        <canvas id="barChart"></canvas>
                     </div>
                 </div>
             </div>
+
+            <!-- 🔥 Возрастная диаграмма -->
+            <div class="col-md-12">
+                <div class="card card-secondary">
+                    <div class="card-header"><h3 class="card-title">Возраст несовершеннолетних</h3></div>
+                    <div class="card-body">
+                        <canvas id="ageChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
         </div>
-
     </div>
 </section>
 {% endblock content %}
 
 {% block custom_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
 $(document).ready(function(){
 
-    // Данные пончикового графика
-    var donutData = {
-        labels: ['Студенты', 'Сотрудники'],
-        datasets: [{
-            data:[{{total_students}}, {{total_staff}}],
-            backgroundColor : ['#00a65a', '#f39c12'],
-        }]
-    }
-
-    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-    var pieOptions = {
-        maintainAspectRatio : false,
-        responsive : true,
-    }
-    var pieChart = new Chart(pieChartCanvas, {
+    /* 🍩 Pie: студенты/сотрудники */
+    var pieChart = new Chart($('#pieChart'), {
         type: 'pie',
-        data: donutData,
-        options: pieOptions
+        data: {
+            labels: ['Студенты', 'Сотрудники'],
+            datasets:[{
+                data:[{{total_students}}, {{total_staff}}],
+                backgroundColor:['#00a65a','#f39c12']
+            }]
+        },
+        options:{ responsive: true }
     });
 
-    // Данные для столбчатого графика
-    var subject_list = {{ subject_list|safe|escape }};
-    var attendance_list = {{ attendance_list }};
+    /* 📊 Bar: посещаемость */
+    var barChart = new Chart($('#barChart'), {
+        type:'bar',
+        data:{
+            labels:{{subject_list|safe}},
+            datasets:[{
+                label:'Посещаемость',
+                data:{{attendance_list}},
+                backgroundColor:'#6c757d'
+            }]
+        },
+        options:{ responsive:true }
+    });
 
-    var barChartData = {
-        labels  : subject_list,
-        datasets: [{
-            label               : 'Посещаемость по предметам',
-            backgroundColor     : '#6c757d',
-            borderColor         : 'rgba(60,141,188,0.8)',
-            pointRadius         : false,
-            pointColor          : '#3b8bba',
-            pointStrokeColor    : 'rgba(60,141,188,1)',
-            pointHighlightFill  : '#fff',
-            pointHighlightStroke: 'rgba(60,141,188,1)',
-            data                : attendance_list
-        }]
-    }
-
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var stackedBarChartOptions = {
-        responsive : true,
-        maintainAspectRatio : false,
-        scales: {
-            xAxes: [{ stacked: true }],
-            yAxes: [{ stacked: true }]
+    /* 🔥 Bar возрастов (фиктивные данные) */
+    var ageChart = new Chart($('#ageChart'), {
+        type:'bar',
+        data:{
+            labels:['14 лет','15 лет','16 лет','17 лет'],
+            datasets:[{
+                label:'Количество несовершеннолетних',
+                data:[5, 12, 9, 6],   // Можешь изменить в 2 сек
+                backgroundColor:'#17a2b8'
+            }]
+        },
+        options:{
+            responsive:true,
+            scales:{y:{beginAtZero:true}}
         }
-    }
+    });
 
-    var barChart = new Chart(barChartCanvas, {
-        type: 'bar',
-        data: barChartData,
-        options: stackedBarChartOptions
-    })
-})
+});
 </script>
 {% endblock custom_js %}
