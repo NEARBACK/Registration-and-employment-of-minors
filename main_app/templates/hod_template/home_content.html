@@ -84,7 +84,7 @@
             <!-- Посещаемость -->
             <div class="col-md-6">
                 <div class="card card-secondary">
-                    <div class="card-header"><h3 class="card-title">Пу пу пу</h3></div>
+                    <div class="card-header"><h3 class="card-title">Вакансии</h3></div>
                     <div class="card-body">
                         <canvas id="barChart"></canvas>
                     </div>
@@ -112,11 +112,11 @@
 <script>
 $(document).ready(function(){
 
-    /* 🍩 Pie: студенты/сотрудники */
+    /* 🍩 Pie: трудоустроенных /не трудоустроенных */
     var pieChart = new Chart($('#pieChart'), {
         type: 'pie',
         data: {
-            labels: ['Студенты', 'Сотрудники'],
+            labels: ['трудоустроенных', 'не трудоустроенных'],
             datasets:[{
                 data:[{{total_students}}, {{total_staff}}],
                 backgroundColor:['#00a65a','#f39c12']

@@ -159,7 +159,7 @@ def staff_apply_leave(request):
     context = {
         'form': form,
         'leave_history': LeaveReportStaff.objects.filter(staff=staff),
-        'page_title': 'Apply for Leave'
+        'page_title': 'Запрос на отпуск'
     }
     if request.method == 'POST':
         if form.is_valid():

@@ -158,7 +158,7 @@
                     {% url 'student_feedback_message' as student_feedback_message %}
                     <a href="{{ student_feedback_message }}" class="nav-link {% if student_feedback_message == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Отзывы несовершенолетних</p>
+                        <p>Отклики несовершенолетних</p>
                     </a>
                 </li>
 
@@ -166,7 +166,7 @@
                     {% url 'staff_feedback_message' as staff_feedback_message %}
                     <a href="{{ staff_feedback_message }}" class="nav-link {% if staff_feedback_message == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
-                        <p>Отзывы сотрудников</p>
+                        <p>Отклики сотрудников</p>
                     </a>
                 </li>
 
@@ -178,13 +178,13 @@
                     </a>
                 </li>
 
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     {% url 'view_student_leave' as view_student_leave %}
                     <a href="{% url 'view_student_leave' %}" class="nav-link {% if view_student_leave == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Отпуска несовершенолетних</p>
                     </a>
-                </li>
+                </li> {% endcomment %}
 
 {% elif request.user.user_type == '2' %}
     <!-- Логотип -->
@@ -329,18 +329,27 @@
                         <p>Просмотр результатов</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     {% url 'student_view_attendance' as student_view_attendance %}
                     <a href="{{ student_view_attendance }}" class="nav-link {% if student_view_attendance == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Просмотр посещаемости</p>
                     </a>
-                </li>
+                </li> {% endcomment %}
                 <li class="nav-item">
                     {% url 'student_view_notification' as student_view_notification %}
                     <a href="{{ student_view_notification }}" class="nav-link {% if student_view_notification == request.path %} active {% endif %}">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Уведомления</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'student_all_subjects' as student_all_subjects %}
+                    <a href="{{ student_all_subjects }}"
+                    class="nav-link {% if student_all_subjects == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-list"></i>
+                        <p>Все вакансии</p>
                     </a>
                 </li>
 

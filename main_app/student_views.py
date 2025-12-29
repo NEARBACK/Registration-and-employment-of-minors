@@ -92,7 +92,7 @@ def student_apply_leave(request):
     context = {
         'form': form,
         'leave_history': LeaveReportStudent.objects.filter(student=student),
-        'page_title': 'Apply for leave'
+        'page_title': 'Запрос на отпуск'
     }
     if request.method == 'POST':
         if form.is_valid():
@@ -116,7 +116,7 @@ def student_feedback(request):
     context = {
         'form': form,
         'feedbacks': FeedbackStudent.objects.filter(student=student),
-        'page_title': 'Отзыв / комментарий'
+        'page_title': 'Отклик'
 
     }
     if request.method == 'POST':
@@ -205,3 +205,39 @@ def student_view_result(request):
         'page_title': "Просмотр результатов"
     }
     return render(request, "student_template/student_view_result.html", context)
+
+
+# def student_subject_list(request):
+#     # все предметы / вакансии
+#     subjects = Subject.objects.all()
+#     context = {
+#         "page_title": "Все вакансии",
+#         "subjects": subjects,
+#     }
+#     return render(request, "student_template/student_subject_list.html", context)
+
+
+def student_subject_list(request):
+    # базовый queryset
+    subjects = Subject.objects.all()
+
+    # читаем значения из query-параметров
+    search_query = request.GET.get("search", "")
+    course_id = request.GET.get("course", "")
+
+    if search_query:
+        subjects = subjects.filter(name__icontains=search_query)
+
+    if course_id:
+        subjects = subjects.filter(course_id=course_id)
+
+    courses = Course.objects.all()
+
+    context = {
+        "page_title": "Все вакансии",
+        "subjects": subjects,
+        "courses": courses,
+        "search_query": search_query,
+        "selected_course_id": course_id,
+    }
+    return render(request, "student_template/student_subject_list.html", context)

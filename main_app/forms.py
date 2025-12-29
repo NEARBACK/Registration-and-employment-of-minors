@@ -158,7 +158,7 @@ class FeedbackStaffForm(FormSettings):
         model = FeedbackStaff
         fields = ['feedback']
         labels = {
-            "feedback": "Отзыв / комментарий",
+            "feedback": "Отклик",
         }
 
 
@@ -186,7 +186,7 @@ class FeedbackStudentForm(FormSettings):
         model = FeedbackStudent
         fields = ['feedback']
         labels = {
-            "feedback": "Отзыв / комментарий",
+            "feedback": "Отклик",
         }
 
 

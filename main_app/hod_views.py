@@ -408,7 +408,7 @@ def student_feedback_message(request):
         feedbacks = FeedbackStudent.objects.all()
         context = {
             'feedbacks': feedbacks,
-            'page_title': 'Отзывы несовершенолетних'
+            'page_title': 'Отклики несовершенолетних'
         }
         return render(request, 'hod_template/student_feedback_template.html', context)
     else:
@@ -429,7 +429,7 @@ def staff_feedback_message(request):
         feedbacks = FeedbackStaff.objects.all()
         context = {
             'feedbacks': feedbacks,
-            'page_title': 'Отзывы персонала'
+            'page_title': 'Отклики персонала'
         }
         return render(request, 'hod_template/staff_feedback_template.html', context)
     else:

@@ -129,5 +129,10 @@ urlpatterns = [
          name="student_view_notification"),
     path('student/view/result/', student_views.student_view_result,
          name='student_view_result'),
+    path(
+        "student/all-subjects/",
+        student_views.student_subject_list,
+        name="student_all_subjects",
+    ),
 
 ]

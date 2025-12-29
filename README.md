@@ -29,14 +29,14 @@ https://smswithdjango.herokuapp.com/
 1. See the Overall Summary Charts related to their students, their subjects, leave status, etc.
 2. Take/Update Students Attendance
 3. Add/Update Result
-4. Apply for Leave
+4. Запрос на отпуск
 5. Send Feedback to HOD
 
 ### C. Students Can
 1. See the Overall Summary Charts related to their attendance, their subjects, leave status, etc.
 2. View Attendance
 3. View Result
-4. Apply for Leave
+4. Запрос на отпуск
 5. Send Feedback to HOD
 
 
@@ -226,7 +226,7 @@ Password: student
 - [x] Views Permission (MiddleWareMixin)
 - [x] Attendance and Update Attendance
 - [x] Password Reset Via Email
-- [x] Apply For Leave
+- [x] Запрос на отпуск
 - [x] Students Can Check Attendance
 - [x] Check Email Availability
 - [x] Reply to Leave Applications
