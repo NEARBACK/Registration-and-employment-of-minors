@@ -7,22 +7,25 @@ from .models import *
 class FormSettings(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormSettings, self).__init__(*args, **kwargs)
-        # Here make some changes such as:
+        # общий класс для всех полей
         for field in self.visible_fields():
             field.field.widget.attrs['class'] = 'form-control'
 
 
 class CustomUserForm(FormSettings):
-    email = forms.EmailField(required=True)
-    gender = forms.ChoiceField(choices=[('M', 'Male'), ('F', 'Female')])
-    first_name = forms.CharField(required=True)
-    last_name = forms.CharField(required=True)
-    address = forms.CharField(widget=forms.Textarea)
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(label="Электронная почта", required=True)
+    gender = forms.ChoiceField(
+        label="Пол",
+        choices=[('M', 'Мужской'), ('F', 'Женский')]
+    )
+    first_name = forms.CharField(label="Имя", required=True)
+    last_name = forms.CharField(label="Фамилия", required=True)
+    address = forms.CharField(label="Адрес", widget=forms.Textarea)
+    password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
     widget = {
         'password': forms.PasswordInput(),
     }
-    profile_pic = forms.ImageField()
+    profile_pic = forms.ImageField(label="Фото профиля")
 
     def __init__(self, *args, **kwargs):
         super(CustomUserForm, self).__init__(*args, **kwargs)
@@ -33,26 +36,33 @@ class CustomUserForm(FormSettings):
             for field in CustomUserForm.Meta.fields:
                 self.fields[field].initial = instance.get(field)
             if self.instance.pk is not None:
-                self.fields['password'].widget.attrs['placeholder'] = "Fill this only if you wish to update password"
+                self.fields['password'].widget.attrs['placeholder'] = (
+                    "Заполните это поле только если хотите изменить пароль"
+                )
 
     def clean_email(self, *args, **kwargs):
         formEmail = self.cleaned_data['email'].lower()
         if self.instance.pk is None:  # Insert
             if CustomUser.objects.filter(email=formEmail).exists():
                 raise forms.ValidationError(
-                    "The given email is already registered")
+                    "Указанный email уже зарегистрирован"
+                )
         else:  # Update
             dbEmail = self.Meta.model.objects.get(
-                id=self.instance.pk).admin.email.lower()
-            if dbEmail != formEmail:  # There has been changes
+                id=self.instance.pk
+            ).admin.email.lower()
+            if dbEmail != formEmail:  # Email изменён
                 if CustomUser.objects.filter(email=formEmail).exists():
-                    raise forms.ValidationError("The given email is already registered")
+                    raise forms.ValidationError(
+                        "Указанный email уже зарегистрирован"
+                    )
 
         return formEmail
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'gender',  'password','profile_pic', 'address' ]
+        fields = ['first_name', 'last_name', 'email', 'gender',
+                  'password', 'profile_pic', 'address']
 
 
 class StudentForm(CustomUserForm):
@@ -61,8 +71,7 @@ class StudentForm(CustomUserForm):
 
     class Meta(CustomUserForm.Meta):
         model = Student
-        fields = CustomUserForm.Meta.fields + \
-            ['course', 'session']
+        fields = CustomUserForm.Meta.fields + ['course', 'session']
 
 
 class AdminForm(CustomUserForm):
@@ -80,8 +89,7 @@ class StaffForm(CustomUserForm):
 
     class Meta(CustomUserForm.Meta):
         model = Staff
-        fields = CustomUserForm.Meta.fields + \
-            ['course' ]
+        fields = CustomUserForm.Meta.fields + ['course']
 
 
 class CourseForm(FormSettings):
@@ -89,18 +97,25 @@ class CourseForm(FormSettings):
         super(CourseForm, self).__init__(*args, **kwargs)
 
     class Meta:
-        fields = ['name']
         model = Course
+        fields = ['name']
+        labels = {
+            "name": "Название курса",
+        }
 
 
 class SubjectForm(FormSettings):
-
     def __init__(self, *args, **kwargs):
         super(SubjectForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = Subject
         fields = ['name', 'staff', 'course']
+        labels = {
+            "name": "Название предмета",
+            "staff": "Преподаватель",
+            "course": "Курс",
+        }
 
 
 class SessionForm(FormSettings):
@@ -114,6 +129,10 @@ class SessionForm(FormSettings):
             'start_year': DateInput(attrs={'type': 'date'}),
             'end_year': DateInput(attrs={'type': 'date'}),
         }
+        labels = {
+            "start_year": "Дата начала",
+            "end_year": "Дата окончания",
+        }
 
 
 class LeaveReportStaffForm(FormSettings):
@@ -126,16 +145,22 @@ class LeaveReportStaffForm(FormSettings):
         widgets = {
             'date': DateInput(attrs={'type': 'date'}),
         }
+        labels = {
+            "date": "Дата",
+            "message": "Сообщение",
+        }
 
 
 class FeedbackStaffForm(FormSettings):
-
     def __init__(self, *args, **kwargs):
         super(FeedbackStaffForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = FeedbackStaff
         fields = ['feedback']
+        labels = {
+            "feedback": "Отзыв / комментарий",
+        }
 
 
 class LeaveReportStudentForm(FormSettings):
@@ -148,16 +173,22 @@ class LeaveReportStudentForm(FormSettings):
         widgets = {
             'date': DateInput(attrs={'type': 'date'}),
         }
+        labels = {
+            "date": "Дата",
+            "message": "Сообщение",
+        }
 
 
 class FeedbackStudentForm(FormSettings):
-
     def __init__(self, *args, **kwargs):
         super(FeedbackStudentForm, self).__init__(*args, **kwargs)
 
     class Meta:
         model = FeedbackStudent
         fields = ['feedback']
+        labels = {
+            "feedback": "Отзыв / комментарий",
+        }
 
 
 class StudentEditForm(CustomUserForm):
@@ -166,7 +197,7 @@ class StudentEditForm(CustomUserForm):
 
     class Meta(CustomUserForm.Meta):
         model = Student
-        fields = CustomUserForm.Meta.fields 
+        fields = CustomUserForm.Meta.fields
 
 
 class StaffEditForm(CustomUserForm):
@@ -181,7 +212,10 @@ class StaffEditForm(CustomUserForm):
 class EditResultForm(FormSettings):
     session_list = Session.objects.all()
     session_year = forms.ModelChoiceField(
-        label="Session Year", queryset=session_list, required=True)
+        label="Учебный год",
+        queryset=session_list,
+        required=True
+    )
 
     def __init__(self, *args, **kwargs):
         super(EditResultForm, self).__init__(*args, **kwargs)
@@ -189,3 +223,9 @@ class EditResultForm(FormSettings):
     class Meta:
         model = StudentResult
         fields = ['session_year', 'subject', 'student', 'test', 'exam']
+        labels = {
+            "subject": "Предмет",
+            "student": "Студент",
+            "test": "Тест",
+            "exam": "Экзамен",
+        }

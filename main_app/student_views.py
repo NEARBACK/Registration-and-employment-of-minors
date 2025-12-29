@@ -59,7 +59,7 @@ def student_view_attendance(request):
         course = get_object_or_404(Course, id=student.course.id)
         context = {
             'subjects': Subject.objects.filter(course=course),
-            'page_title': 'View Attendance'
+            'page_title': 'Просмотр посещаемости'
         }
         return render(request, 'student_template/student_view_attendance.html', context)
     else:
@@ -140,7 +140,7 @@ def student_view_profile(request):
     form = StudentEditForm(request.POST or None, request.FILES or None,
                            instance=student)
     context = {'form': form,
-               'page_title': 'View/Edit Profile'
+               'page_title': 'Просмотр/Редактирование Профиля'
                }
     if request.method == 'POST':
         try:
